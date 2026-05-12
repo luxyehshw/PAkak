@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zav Premium Hosting - Client Area</title>
+    <style>
+        :root {
+            --bg: #060b10;
+            --surface: #0d1520;
+            --border: #182639;
+            --text: #c3cddb;
+            --text-dim: #5e708b;
+            --accent: #e8601c;
+            --green: #1a7f37;
+            --green-bg: #0d2414;
+            --red: #d9443a;
+            --red-bg: #1a0f0f;
+            --yellow: #c9a43b;
+            --yellow-bg: #1a160a;
+            --blue: #316dca;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0 30px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header .brand {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1.5px;
+        }
+        .header .brand span { color: var(--accent); }
+        .header .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .badge {
+            font-size: 0.7em;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: #08111a;
+            color: #5ea3e8;
+            border: 1px solid #5ea3e8;
+        }
+        .btn-logout {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            padding: 7px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-logout:hover { border-color: var(--red); color: var(--red); }
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 28px 22px;
+        }
+        .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px 24px;
+            flex: 1;
+            min-width: 160px;
+        }
+        .stat-card .stat-value {
+            font-size: 2em;
+            font-weight: 800;
+            color: #fff;
+        }
+        .stat-card .stat-label {
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 25px;
+        }
+        .card h2 {
+            color: #fff;
+            font-size: 1.1em;
+            font-weight: 700;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table th {
+            text-align: left;
+            font-size: 0.7em;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-dim);
+            padding: 12px 14px;
+            border-bottom: 2px solid var(--border);
+            font-weight: 700;
+        }
+        table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.88em;
+        }
+        table tbody tr:hover { background: rgba(255,255,255,0.012); }
+        .btn {
+            display: inline-block;
+            padding: 10px 22px;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 0.82em;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+        }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { background: #f4783b; }
+        .btn-sm { padding: 5px 12px; font-size: 0.72em; }
+        .status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.73em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .status-approved { background: var(--green-bg); color: var(--green); border: 1px solid var(--green); }
+        .status-pending { background: var(--yellow-bg); color: var(--yellow); border: 1px solid var(--yellow); }
+        .status-rejected { background: var(--red-bg); color: var(--red); border: 1px solid var(--red); }
+        .plan-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .plan-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 18px;
+            flex: 1;
+            min-width: 210px;
+            text-align: center;
+            transition: border 0.2s;
+        }
+        .plan-card:hover { border-color: var(--accent); }
+        .plan-card h4 { color: #fff; font-size: 1em; margin-bottom: 8px; }
+        .plan-card .plan-specs { font-size: 0.78em; color: var(--text-dim); margin-bottom: 10px; line-height: 1.8; }
+        .plan-card .plan-cost { font-size: 0.85em; color: var(--accent); font-weight: 700; margin-bottom: 12px; }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 440px;
+            text-align: center;
+        }
+        .modal h3 { color: #fff; margin-bottom: 12px; }
+        .modal p { color: var(--text-dim); margin-bottom: 20px; font-size: 0.9em; }
+        .modal-buttons { display: flex; gap: 10px; justify-content: center; }
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: var(--green);
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 7px;
+            font-weight: 600;
+            font-size: 0.85em;
+            z-index: 300;
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .empty-state { text-align: center; padding: 25px; color: var(--text-dim); font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="brand">ZAV<span>HOSTING</span></div>
+        <div class="user-info">
+            <span id="clientName">Client</span>
+            <span class="badge">Client</span>
+            <button class="btn-logout" onclick="logout()">Sign Out</button>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+
+        <!-- STATS -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-value" id="statCredits">0</div>
+                <div class="stat-label">Your Credits</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statRequests">0</div>
+                <div class="stat-label">Total Requests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statApproved">0</div>
+                <div class="stat-label">Approved</div>
+            </div>
+        </div>
+
+        <!-- REQUEST HOSTING -->
+        <div class="card">
+            <h2>Request Hosting Plan</h2>
+            <p style="font-size:0.85em; color:var(--text-dim); margin-bottom:20px;">Select a plan below. Your request will be reviewed by the administrator. Credits will be deducted upon approval.</p>
+
+            <div class="plan-cards" id="planCards"></div>
+        </div>
+
+        <!-- MY REQUESTS -->
+        <div class="card">
+            <h2>My Hosting Requests</h2>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Plan Type</th>
+                            <th>Plan Name</th>
+                            <th>Credits</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myRequestsBody">
+                        <tr><td colspan="5" class="empty-state">No requests submitted yet.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CONFIRM MODAL -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal">
+            <h3 id="confirmTitle">Confirm Request</h3>
+            <p id="confirmMsg"></p>
+            <div class="modal-buttons">
+                <button class="btn btn-logout" style="color:var(--text);" onclick="closeModal('confirmModal')">Cancel</button>
+                <button class="btn btn-primary" id="confirmBtn">Confirm Request</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============ AUTH CHECK ============
+        const currentUser = JSON.parse(sessionStorage.getItem('vza_currentUser'));
+        if (!currentUser || currentUser.role !== 'client') {
+            window.location.href = '../index.html';
+        }
+        document.getElementById('clientName').textContent = currentUser.username;
+
+        // ============ PLANS ============
+        const plans = [
+            { type: 'Python Hosting', name: 'Script', specs: '512MB RAM | 50% vCPU | 1GB Disk', cost: 200 },
+            { type: 'Python Hosting', name: 'Module', specs: '1GB RAM | 100% vCPU | 2GB Disk', cost: 500 },
+            { type: 'Python Hosting', name: 'Framework', specs: '2GB RAM | 2 vCPU | 5GB Disk', cost: 750 },
+            { type: 'Web Hosting', name: 'Startup', specs: '512MB RAM | 50% vCPU | 1GB Disk', cost: 250 },
+            { type: 'Web Hosting', name: 'Business', specs: '1GB RAM | 100% vCPU | 2GB Disk', cost: 600 },
+            { type: 'Web Hosting', name: 'Enterprise', specs: '2GB RAM | 2 vCPU | 5GB Disk', cost: 800 },
+        ];
+
+        let pendingRequest = null;
+
+        // ============ HELPERS ============
+        function getAccounts() { return JSON.parse(localStorage.getItem('vza_accounts')) || []; }
+        function saveAccounts(accounts) { localStorage.setItem('vza_accounts', JSON.stringify(accounts)); }
+        function getRequests() { return JSON.parse(localStorage.getItem('vza_requests')) || []; }
+        function saveRequests(requests) { localStorage.setItem('vza_requests', JSON.stringify(requests)); }
+        function refreshUser() {
+            const accounts = getAccounts();
+            const fresh = accounts.find(a => a.id === currentUser.id);
+            if (fresh) {
+                sessionStorage.setItem('vza_currentUser', JSON.stringify(fresh));
+                return fresh;
+            }
+            return currentUser;
+        }
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.style.display = 'block';
+            setTimeout(() => { t.style.display = 'none'; }, 2500);
+        }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        // ============ RENDER ============
+        function renderAll() {
+            const user = refreshUser();
+            const requests = getRequests().filter(r => r.clientId === user.id);
+
+            document.getElementById('statCredits').textContent = user.credits;
+            document.getElementById('statRequests').textContent = requests.length;
+            document.getElementById('statApproved').textContent = requests.filter(r => r.status === 'approved').length;
+
+            // Plan Cards
+            const planCardsDiv = document.getElementById('planCards');
+            planCardsDiv.innerHTML = plans.map((p, i) => `
+                <div class="plan-card">
+                    <h4>${p.type} - ${p.name}</h4>
+                    <div class="plan-specs">${p.specs}</div>
+                    <div class="plan-cost">${p.cost} Credits</div>
+                    <button class="btn btn-primary btn-sm" onclick="openConfirm(${i})">Request Plan</button>
+                </div>
+            `).join('');
+
+            // My Requests Table
+            const reqBody = document.getElementById('myRequestsBody');
+            if (requests.length === 0) {
+                reqBody.innerHTML = '<tr><td colspan="5" class="empty-state">No requests submitted yet.</td></tr>';
+            } else {
+                reqBody.innerHTML = requests.slice().reverse().map(r => {
+                    let sc = 'status-pending';
+                    if (r.status === 'approved') sc = 'status-approved';
+                    if (r.status === 'rejected') sc = 'status-rejected';
+                    return `<tr>
+                        <td>${r.planType}</td>
+                        <td>${r.planName}</td>
+                        <td>${r.creditsCost}</td>
+                        <td>${new Date(r.date).toLocaleDateString()}</td>
+                        <td><span class="status ${sc}">${r.status}</span></td>
+                    </tr>`;
+                }).join('');
+            }
+        }
+
+        function openConfirm(planIndex) {
+            const user = refreshUser();
+            const plan = plans[planIndex];
+            pendingRequest = plan;
+
+            if (user.credits < plan.cost) {
+                document.getElementById('confirmTitle').textContent = 'Insufficient Credits';
+                document.getElementById('confirmMsg').textContent = `You need ${plan.cost} credits for the ${plan.name} plan, but you only have ${user.credits}. Please contact the administrator for more credits.`;
+                document.getElementById('confirmBtn').style.display = 'none';
+            } else {
+                document.getElementById('confirmTitle').textContent = 'Confirm Request';
+                document.getElementById('confirmMsg').textContent = `You are requesting: ${plan.type} - ${plan.name}\nCost: ${plan.cost} credits\nYour balance: ${user.credits} credits\n\nCredits will be deducted upon admin approval.`;
+                document.getElementById('confirmBtn').style.display = 'inline-block';
+                document.getElementById('confirmBtn').onclick = submitRequest;
+            }
+            document.getElementById('confirmModal').classList.add('active');
+        }
+
+        function submitRequest() {
+            const user = refreshUser();
+            const plan = pendingRequest;
+
+            // Deduct credits immediately or on approval? Let's do on request (admin can refund if rejected)
+            const accounts = getAccounts();
+            const acc = accounts.find(a => a.id === user.id);
+            if (acc) {
+                acc.credits -= plan.cost;
+                saveAccounts(accounts);
+            }
+
+            const requests = getRequests();
+            requests.push({
+                clientId: user.id,
+                clientUsername: user.username,
+                planType: plan.type,
+                planName: plan.name,
+                creditsCost: plan.cost,
+                date: new Date().toISOString(),
+                status: 'pending'
+            });
+            saveRequests(requests);
+
+            pendingRequest = null;
+            closeModal('confirmModal');
+            renderAll();
+            showToast('Request submitted. Waiting for admin approval.');
+        }
+
+        function logout() {
+            sessionStorage.removeItem('vza_currentUser');
+            window.location.href = '../index.html';
+        }
+
+        renderAll();
+    </script>
+
+</body>
+</html>
